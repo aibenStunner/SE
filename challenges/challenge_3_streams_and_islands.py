@@ -24,32 +24,40 @@ def dfs(mat, i, j):
                 stream += dfs(mat, r, c)
 
     # wrap around diagonally (check immediate right diagonal from other side)
-    stream += dfs(mat, i-1, len(mat[0])-1)
-    stream += dfs(mat, i+1, len(mat[0])-1)
+    if j == 0:      # check if element is on left edge
+        stream += dfs(mat, i-1, len(mat[0])-1)
+        stream += dfs(mat, i+1, len(mat[0])-1)
 
     # wrap around diagonally (check immediate left diagonal from other side)
-    stream += dfs(mat, 1-1, 0)
-    stream += dfs(mat, 1+1, 0)
+    if j == len(mat[0])-1:  # check if element is on right edge
+        stream += dfs(mat, 1-1, 0)
+        stream += dfs(mat, 1+1, 0)
 
     # wrap around diagonally (check first element in leading diagonal)
-    stream += dfs(mat, i+1-len(mat), j+1-len(mat[0]))
+    if i == len(mat)-1 and j == len(mat[0])-1: # check if element is the last element in leading diagonal
+        stream += dfs(mat, 0, 0)
 
     # wrap around diagonally (check last element in leading diagonal)
-    stream += dfs(mat, len(mat)-1, len(mat[0])-1)
+    if i == 0 and j == 0:    # check if element is the first element in leading diagonal
+        stream += dfs(mat, len(mat)-1, len(mat[0])-1)
 
     # wrap around horizontally
-    stream += dfs(mat, i, 0)
-    stream += dfs(mat, i, len(mat[0]))
+    if j == len(mat[0])-1:   # check if element is at the right edge
+        stream += dfs(mat, i, 0)
+    if j == 0:               # check if element is at the left edge
+        stream += dfs(mat, i, len(mat[0])-1)
 
     # wrap around vertically
-    stream += dfs(mat, 0, j)
-    stream += dfs(mat, len(mat), j)  
+    if i == len(mat)-1:      # check if element is at the lower edge
+        stream += dfs(mat, 0, j)
+    if i == 0:               # check if element is at the upper edge
+        stream += dfs(mat, len(mat)-1, j)  
 
     return stream
 
 mat = [
-[1, 0, 0, 0, 0],
-[0, 0, 1, 0, 0],
+[0, 0, 0, 0, 0],
+[0, 1, 0, 0, 0],
 [0, 0, 0, 0, 1]
 ]
 
